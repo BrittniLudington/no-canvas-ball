@@ -8,7 +8,7 @@ function setUp()
     console.log("SETTING UP");
     let ball = document.getElementById("ball");
     ball.onmousedown = function(){listenForClick()};
-    ball.onmouseup = function(){listenForNoClick()};
+    document.onmouseup = function(){listenForNoClick()};
     document.onmousemove = function(event){trackMouse(event)};
     timer = setInterval(function()
     {
@@ -19,6 +19,8 @@ function setUp()
             /*
                 Start basic, have ball move to location of cursor. Change its css.
             */
+           ball.style.left = cursor[0] + "px";
+           ball.style.top = cursor[1]  + "px";
         }
     }, 50)
 }
