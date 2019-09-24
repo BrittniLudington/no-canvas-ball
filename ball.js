@@ -2,6 +2,7 @@
 let cursor = [0,0];
 let cursorDown = false;
 let timer;
+let relativeDistance = [0,0];
 
 function setUp()
 {
@@ -15,14 +16,13 @@ function setUp()
         // check for cursor position if cursorDown is true
         if(cursorDown)
         {
-            console.log("Clicking.....");
             /*
-                Start basic, have ball move to location of cursor. Change its css.
+                Keep ball relative to cursor. 
             */
-           ball.style.left = cursor[0] + "px";
-           ball.style.top = cursor[1]  + "px";
+           ball.style.left = (cursor[0] + relativeDistance[0]) + "px";
+           ball.style.top = (cursor[1] + relativeDistance[1])  + "px";
         }
-    }, 50)
+    }, 25)
 }
 
 function trackMouse(e)
@@ -33,13 +33,18 @@ function trackMouse(e)
 
 function listenForClick()
 {
-    console.log("CLICK");
-    cursorDown = true;
+    if(!cursorDown)
+    {
+        cursorDown = true;
+        let ballCorner = document.getElementById("ball").getBoundingClientRect();  
+        relativeDistance[0] = ballCorner.x - cursor[0];
+        relativeDistance[1] = ballCorner.y - cursor[1];  
+    }
+
 }
 
 function listenForNoClick()
 {
-    console.log("NO CLICK");
     cursorDown = false;
 }
 
